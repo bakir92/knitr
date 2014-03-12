@@ -1,0 +1,181 @@
+\documentclass{article}
+\usepackage{geometry}
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<setup, include=FALSE, cache=FALSE,echo=FALSE>>=
+library(gmodels)
+library(Hmisc)
+library(ade4)
+library(markdown)
+library(knitr)
+library(ggplot2)
+library(rgl)
+# set global chunk options
+opts_chunk$set(fig.path='figure/knitr-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=90)
+@
+
+
+\title{A Minimal Demo of knitr}
+
+
+\author{Bakir Sharaf}
+
+\maketitle
+To see whether \textbf{knitr} works or not. 
+OK, let's get started with some boring random numbers:
+
+<<boring-random>>=
+(x=rnorm(20))
+mean(x);
+var(x)
+@
+The first element of \texttt{x} is \Sexpr{x[1]}.
+Boring boxplots and histograms recorded by the PDF device:
+
+<<boring-plots, fig=TRUE>>=
+## two plots side by side (option fig.show='hold')
+par(mfrow=c(2,3))
+boxplot(x)
+hist(x,main="")
+curve(sin(x),-3,3,col=3,lwd=8,lty=4)
+@
+
+To see whether the above chunks of code works or not.
+You should be able to compile the \TeX{} document and get a pdf file.
+
+\section*{Using datasets}
+
+
+<<define-Data>>=
+data(mtcars)
+df=mtcars
+dim(df)
+@
+\section*{Viewing Data}
+
+<<view-data>>=
+df
+head(df)
+tail(df)
+str(df)
+@
+\section*{Summary of data}
+
+<<basic-summary>>=
+summary(df)
+@
+\section*{Using the describe function}
+
+<<describe>>=
+describe(df)
+@
+\section*{1,2 and 3-way Cross Tabulations}
+
+
+<<basicTable>>=
+table(df$cyl)
+table(df$cyl, df$gear)
+#Number of cyclinders, numbers of gear, transmission type 
+table(df$cyl, df$gear, df$am)
+@
+\section*{Crosstabulation using formula format}
+
+<< CrossTabs2>>=
+xtabs(cyl~gear, df)
+xtabs(cyl~gear+am+vs, df)
+@
+\section*{Create Contingency Table }
+
+<<contingenc>>=
+ftable(df$cyl, df$vs, df$am, df$gear, row.vars = c(2, 4), dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
+
+ftable(df$cyl, df$vs, df$am, df$gear, row.vars = c(2, 3), dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
+@
+
+\subsection*{2 way cross tabulation in SAS  format}
+
+<<CrossTabSAS>>=
+CrossTable(df$cyl, df$gear, format="SAS")
+CrossTable(df$cyl, df$gear, expected=TRUE,format="SAS")
+@
+\subsection*{2 way cross tabulation in SPSS format}
+
+<<CrossTabSPSS>>=
+CrossTable(df$cyl, df$gear, format="SPSS")
+CrossTable(df$cyl, df$gear, expected=TRUE,format="SPSS")
+@
+\section*{Some Plots for Exploring Data}
+\subsection*{scatterplot}
+
+<<scatterplot,fig=TRUE>>=
+attach(df)
+plot(qsec, mpg, col=cyl, pch=19, main="Miles per gallon by 1/4 mile time (by cylinder)")
+legend("topleft", legend=unique(cyl), fill=unique(cyl))
+@
+\subsection*{boxplot}
+
+<<boxplot,fig=TRUE>>=
+plot(qsec~factor(cyl), col=unique(cyl))
+@
+\subsection*{boxplot all of the columns}
+
+<<boxplotALL,fig=TRUE>>=
+boxplot(df)
+@
+
+\subsection*{Correlation across }
+ 
+<<pairs,fig=TRUE>>=
+plot(df)
+@
+
+\subsection*{Or calculate correlation and view on heatmap}
+<<heatmap,fig=TRUE>>=
+heatmap(cor(df))
+@
+\section*{Basic principcal component analysis}
+
+<<prcomp,fig=TRUE>>=
+res<-prcomp(df)
+screeplot(res)
+biplot(res)
+@
+
+<<dudi-pca, fig=TRUE>>=
+res<-dudi.pca(df, scan=FALSE)
+par(mfrow=c(2,2))
+barplot(res$eig)
+s.class(res$li, factor(cyl))
+s.label(res$co)
+s.label(res$li, clabel=0.5)
+@
+\section*{How to Process this document}
+
+
+
+knit("knitr-reports-mtcars.Rmd")
+
+knit2html("knitr-reports-mtcars.Rmd")
+
+knit2pdf("knitr-reports-mtcars.Rmd")
+
+purl("knitr-reports-mtcars.Rmd")
+
+
+
+\subsection*{Or use pandoc to convert markdown file}
+
+system("pandoc -s knitr-reports-mtcars.Rmd  -o knitr-reports-mtcars.pdf")
+
+system("pandoc -s knitr-reports-mtcars.Rmd  -o knitr-reports-mtcars.docx")
+
+system("pandoc -s knitr-reports-mtcars.Rmd  -o knitr-reports-mtcars.html")
+
+dir()
+
+
+
+
+\end{document}
