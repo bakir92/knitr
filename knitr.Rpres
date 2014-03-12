@@ -1,0 +1,250 @@
+Knitr Presentation
+========================================================
+author: Bakir Sharaf
+
+date: 24-Feb-2014
+
+<style type="text/css">
+
+th {  background-color:#E0E0E0 ;
+      border-bottom:1px solid black;
+      padding:5px;}
+
+td{
+border-bottom:1px dotted black;
+padding:5px;}
+
+table{ 
+border-collapse:collapse;
+margin:auto;
+ border: 1px solid black;}
+</style>
+
+```{r cache,echo=FALSE}
+opts_chunk$set(cache=TRUE)
+```
+Introduction
+========================================================
+
+The very first slide in knitr presentation is the title slide. It will automatically be displayed with a larger heading and a special background color. It also include author and date fields.
+
+
+```{r,eval=FALSE}
+Knitr Presentation
+
+author: Bakir Sharaf
+
+date: 24-Feb-2014
+```
+
+
+Bullets
+========================================================
+
+- Alpha 
+- Beta
+- Gamma
+
+
+To write bullets use
+```{r,eval=FALSE}
+-
+```
+Different options in R markdown chunks
+========================================================
+
+- eval
+  -The eval option is used when we want to show only the code and not the output of the command.
+
+- echo
+  -The echo option is used when we want to show only the output and not the input of the command.
+
+
+Basics
+========================================================
+
+- Emphasis
+---------------------------------------------------
+```{r,eval=FALSE}
+  - italics
+     - *Hello*
+  - bold
+      - **Hello**
+```
+*Hello* **Hello**
+- Headers
+-------------------------------------------------------
+```{r,eval=FALSE}
+  - Header 1
+      - ==========================
+  - Header 2
+      - --------------------------
+  - Header 3 or 4 
+      - ### or ####
+```      
+
+Continued
+======================================================
+- Lists
+-----------------------------------------------------
+
+### Unordered List
+* Item 1
+* Item 2
+  * Item 2a
+   * Item 2b
+   
+### Ordered List
+1. Item 1
+2. Item 2
+3. Item 3
+  * Item 3a
+ 
+  
+=========================================================
+BlockQuotes
+---------------------------------------------
+
+```{r,eval=FALSE}
+
+A friend once said:
+
+> It's always better to give
+> than to receive
+
+```
+
+A friend once said:
+
+> It's always better to give
+> than to receive
+
+Code only slide
+======================================================
+
+```{r,eval=FALSE}
+summary(cars)
+```
+
+
+Output only slide
+=====================================================
+```{r,echo=FALSE}
+summary(cars)
+```
+
+Slide With Plot
+========================================================
+
+```{r}
+plot(cars)
+```
+
+Caching
+=======================================================
+
+```{r setup, include=FALSE}
+opts_chunk$set(cache=TRUE)
+```
+
+- Every time a presentation is saved it's preview is automatically updated by re-running knitr for the presentation.This is time consuming due to long computations.
+
+- If you want to enable caching globally for your presentation you can include a code chunk like this at the top of the document:
+```{r,eval=FALSE}
+opts_chunk$set(cache=TRUE)
+```
+
+- If you run into problems with cached output you can always use the Clear Knitr Cache command on the More menu.
+
+Images
+=======================================================
+
+```{r,eval=FALSE}
+![Cake](Chelsea.jpg)
+```
+
+When there is a text along with the image it will appear to the right dividing the slide into two columns.
+
+![Cake](Chelsea.jpg)
+***
+This text will appear to the right.
+
+
+Graphs
+=======================================================
+```{r qplot,fig.width=4, fig.height=3,message=FALSE}
+library(ggplot2)
+summary(cars)
+```
+======================================================
+```{r }
+qplot(speed,dist,data=cars)+geom_smooth()
+```
+
+
+Embedding Equations
+=======================================================
+
+```{r,eval=FALSE}
+$$equation$$
+\[equation]
+```
+
+```{r,eval=FALSE}
+$$ \alpha + \beta = \gamma $$
+```
+
+$$ \alpha + \beta = \gamma $$
+
+```{r,eval=FALSE}
+
+The arithmetic mean is equal to $\frac{1}{n} \sum_{i=1}^{n} x_{i}$, or the summation of n numbers divided by n.
+```
+
+The arithmetic mean is equal to $\frac{1}{n} \sum_{i=1}^{n} x_{i}$, or the summation of n numbers divided by n.
+
+======================================================
+
+```{r,eval=FALSE}
+$$
+  \begin{aligned}
+  \dot{x}= \sigma(y-x) \\
+  \dot{y}= \rho x- y - xz \\
+  \dot{z}= -\beta z + xy 
+  \end{aligned}
+$$
+```
+$$
+  \begin{aligned}
+  \dot{x}= \sigma(y-x) \\
+  \dot{y}= \rho x- y - xz \\
+  \dot{z}= -\beta z + xy 
+  \end{aligned}
+$$
+
+========================================================
+- Tables
+-----------------------------------
+
+
+```{r,eval=FALSE}
+Product | Unit Price | Quantity | Total
+--------|------------|---------|------
+Pen     |    5       |    3    |    15
+Jean    |   2000     |    2    |  4000
+Shirt   |   1500     |    3    |  4500
+```
+
+
+Product | Unit Price | Quantity | Total
+--------|------------|---------|------
+Pen     |    5       |     3   |   15
+Jean    |   2000     |    2    |  4000
+Shirt   |   1500     |    3    |  4500
+
+=================================================================
+
+Thank you
+
+
+
